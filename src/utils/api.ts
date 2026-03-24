@@ -1,52 +1,94 @@
-export default async function api<T>(url: string, options: RequestInit): Promise<T> {
-  const res: Response = await fetch('http://localhost:3000' + url, options)
+export default async function api<T>(
+  url: string,
+  options: RequestInit,
+): Promise<T> {
+  const res: Response = await fetch("http://localhost:3000" + url, options);
   if (!res.ok) {
     if (res.status === 404) {
-      const err: any = await res.json()
-      throw new Error(`${err.status} - ${err.message}`)
+      const err: any = await res.json();
+      throw new Error(`${err.status} - ${err.message}`);
     }
 
-    throw new Error(`${res.status} - ${res.statusText}`)
+    throw new Error(`${res.status} - ${res.statusText}`);
   }
-  return res.json() as T
+  return res.json() as T;
 }
+
+
+
+export async function getUserAuth<T>(url: string): Promise<T> {
+  const options: RequestInit = {
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return await api<T>(url, options);
+}
+
+export async function postClearCookie<T>(url:string):Promise<T>{
+    const options: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+  };
+
+  return await api<T>(url,options)
+}
+
+export async function postUserAuth<T>(
+  url: string,
+  body: userLogin | userRegister,
+) {
+  const options: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+  console.log(options);
+  return await api<T>(url, options);
+}
+
+export type resLogout = resRegister
 
 export type resRegister = {
-  status: number
-  message: string
-}
+  status: number;
+  message: string;
+};
 
 export type resLogin = {
-  status: number
-  message: string
-  token: string
-}
+  status: number;
+  message: string;
+};
 
 export type userRegister = {
-  username: string
-  password: string
+  username: string;
+  password: string;
   info: {
-    name: string
-    lastname: string
-    email: string
-    birthday: string
-    country: string
-  }
-}
+    name: string;
+    lastname: string;
+    email: string;
+    birthday: string;
+    country: string;
+  };
+};
 
 export type userLogin = {
-  username:string,
-  password:string
-}
+  username: string;
+  password: string;
+};
 
 export type userAuth = {
-  id: string
-  username: string
+  id: string;
+  username: string;
   info: {
-    name: string
-    lastname: string
-    email: string
-    birthday: string
-    country: string
-  }
-}
+    name: string;
+    lastname: string;
+    email: string;
+    birthday: string;
+    country: string;
+  };
+};

@@ -1,59 +1,72 @@
-import { useState } from 'react'
-import { type stateForm, type stateLoad, type stateUserAuth } from '../../types/typeStates'
-import SignUp from './components/Signup/SignUp'
-import Login from './components/Login/Login'
-import Button from '../../components/Button'
-import './Form.css'
-import api from '../../../../login-form/src/utils/api'
+import { useState } from "react";
+import {
+  type stateForm,
+  type stateLoad,
+  type stateApp,
+} from "../../types/typeStates";
+import SignUp from "./components/Signup/SignUp";
+import Login from "./components/Login/Login";
+import Button from "../../components/Button";
+import "./Form.css";
+import {
+  getUserAuth,
+  type userAuth,
+} from "../../../../login-form/src/utils/api";
 
-type userAuth = {
-  id: string
-  username: string
-  info: {
-    name: string
-    lastname: string
-    email: string
-    birthday: string
-    country: string
-  }
-}
-
-export default function Form({onLoad, onSubmit}:{onLoad:(stl:stateLoad)=>void, onSubmit:(stua:stateUserAuth)=>void}) {
-  const [form, setForm] = useState<stateForm>({ status: 'login' })
-
+export default function Form({
+  onLoad,
+  onSubmit,
+}: {
+  onLoad: (stl: stateLoad) => void;
+  onSubmit: (sta: stateApp) => void;
+}) {
+  const [form, setForm] = useState<stateForm>({ status: "login" });
 
   function handleLogin() {
-    setForm({ status: 'login' })
+    setForm({ status: "login" });
   }
   function handleRegister() {
-    setForm({ status: 'register' })
+    setForm({ status: "register" });
   }
 
-  async function handleSubmit(token:string) {
+  async function handleSubmit() {
     try {
-      const res: userAuth = await api<userAuth>('/api/auth/me', { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-      localStorage.setItem('TOKEN', token)
-      onSubmit(res)
+      const res: userAuth = await getUserAuth<userAuth>("/api/auth/me");
+      onSubmit({ status: "success", data: res });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    onLoad({status:'idle'})
+    onLoad({ status: "idle" });
   }
 
   return (
     <>
-      <div className='form-container'>
-        <div className='form'>
-          <div className='button-group'>
-            <Button id='login' onClick={handleLogin} textContent='Log In'></Button>
-            <Button id='register' onClick={handleRegister} textContent='Sign Up'></Button>
+      <div className="form-page">
+        <div className="form-container">
+          <div className="button-container">
+            <Button
+              id="login"
+              onClick={handleLogin}
+              textContent="Log In"
+            ></Button>
+            <Button
+              id="register"
+              onClick={handleRegister}
+              textContent="Sign Up"
+            ></Button>
           </div>
-          <div className='title'>Welcome</div>
-          <div className='subtitle'>{form.status === 'login' ? 'Log In' : 'Sign Up'}</div>
-          {form.status === 'login' && <Login onLoad={onLoad} onSubmit={handleSubmit} />}
-          {form.status === 'register' && <SignUp onSubmit={onLoad} />}
+          <div className="title-container">
+            <div className="title"><h1>Welcome</h1></div>
+            <div className="subtitle">
+              <h2>
+              {form.status === "login" ? "Log In" : "Sign Up"}
+              </h2>
+            </div>
+          </div>
+          {form.status === "login" &&  <Login onLoad={onLoad} onSubmit={handleSubmit} />}
+          {form.status === "register" && <SignUp onSubmit={onLoad} />}
         </div>
       </div>
     </>
-  )
+  );
 }

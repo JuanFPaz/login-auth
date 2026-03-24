@@ -1,0 +1,39 @@
+
+.user-page {
+  flex: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.user-container {
+  background-color: #15172b;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.user-header {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+.user-info {
+  color: #eee;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.user-info ul{
+    border-radius: 20px;
+}
+
+.user-info li{
+    padding: 20px;
+    list-style: none;
+}
