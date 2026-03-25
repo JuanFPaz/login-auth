@@ -24,7 +24,6 @@ export default function Login({ onLoad, onSubmit }: propsLogin) {
     event.preventDefault();
     onLoad({ status: "load" });
     const fd: FormData = new FormData(event.currentTarget);
-    console.log(fd)
     const bodyUser: userLogin = {
       username: fd.get('username') as string,
       password: fd.get('password') as string
