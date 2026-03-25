@@ -1,8 +1,11 @@
+// const DEV_URL = 'http://localhost:3000'
+const PROD_URL = 'https://jwt-prueba.onrender.com'
+
 export default async function api<T>(
   url: string,
   options: RequestInit,
 ): Promise<T> {
-  const res: Response = await fetch("http://localhost:3000" + url, options);
+  const res: Response = await fetch(PROD_URL + url, options);
   if (!res.ok) {
     if (res.status === 404) {
       const err: any = await res.json();
