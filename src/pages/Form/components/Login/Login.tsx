@@ -29,8 +29,7 @@ export default function Login({ onLoad, onSubmit }: propsLogin) {
       password: fd.get('password') as string
     }
     const rememberUser = fd.get('rememberme')
-    console.log(rememberUser);
-    
+   
     try {
       const res: resLogin = await postUserAuth<resLogin>(
         "/api/auth/login",
