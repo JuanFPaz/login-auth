@@ -19,3 +19,7 @@ export type propsUser = {
   data: userAuth;
   onDisconnect: () => void;
 };
+
+export type propsTablaUser = {
+  userAuth: userAuth;
+};
