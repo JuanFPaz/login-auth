@@ -1,10 +1,6 @@
-import type { userAuth } from "../../../service/api";
+import type { propsTablaUser } from "../../../types/typeProps";
 
-type propsTablaUser={
-    userAuth:userAuth
-}
-
-export default function TablaUser({userAuth}:propsTablaUser) {
+export default function TablaUser({ userAuth }: propsTablaUser) {
   return (
     <>
       <div className="user-tabla">
