@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .form-card {
@@ -16,7 +16,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr;
-  padding: 2em;
+  padding: 1em;
 }
 
 .buttons-container {

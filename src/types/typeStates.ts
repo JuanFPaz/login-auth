@@ -1,7 +1,7 @@
-import type { userAuth } from "./typeService";
+import type { UserResponse } from "./typeService";
 
 export type stateApp =
-  | { status: "success"; data: userAuth }
+  | { status: "success"; data: UserResponse }
   | { status: "idle" }
   | { status: "none" };
 export type stateLoad = { status: "idle" } | { status: "load" };
@@ -16,7 +16,7 @@ export type stateMessage =
 export type stateUser =
   | {
       status: "idle";
-      data: userAuth;
+      data: UserResponse;
     }
   | { status: "edit" }
   | { status: "delete" }

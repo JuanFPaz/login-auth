@@ -3,7 +3,7 @@ import Input, { CheckBox } from "../../../../components/Input";
 import { postLogin } from "../../../../service/api";
 import type { stateMessage } from "../../../../types/typeStates";
 import type { propsLogin } from "../../../../types/typeProps";
-import type { responseApi, userLogin } from "../../../../types/typeService";
+import type { LoginResponse, UserLogin } from "../../../../types/typeService";
 
 export default function Login({ onLoad, onSubmit }: propsLogin) {
   const [message, setMessage] = useState<stateMessage>({ status: "idle" });
@@ -17,20 +17,20 @@ export default function Login({ onLoad, onSubmit }: propsLogin) {
     event.preventDefault();
     onLoad({ status: "load" });
     const fd: FormData = new FormData(event.currentTarget);
-    const bodyUser: userLogin = {
+    const bodyUser: UserLogin = {
       username: fd.get("username") as string,
       password: fd.get("password") as string,
     };
     const rememberUser = fd.get("rememberme");
 
     try {
-      const res: responseApi = await postLogin<responseApi>(
+      const res: LoginResponse = await postLogin<LoginResponse>(
         "/api/auth/login",
         bodyUser,
       );
       setMessage({ status: "success", data: res.message });
       if (rememberUser) localStorage.setItem("remember", "on");
-      onSubmit();
+      onSubmit(res.access_token);
     } catch (err) {
       setMessage({ status: "error", error: (err as Error).message });
       onLoad({ status: "idle" });

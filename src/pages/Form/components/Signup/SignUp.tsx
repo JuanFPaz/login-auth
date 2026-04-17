@@ -3,7 +3,7 @@ import Input from "../../../../components/Input";
 import { postSignUp } from "../../../../service/api";
 import type { stateMessage } from "../../../../types/typeStates";
 import type { propsSignUp } from "../../../../types/typeProps";
-import type { responseApi, userRegister } from "../../../../types/typeService";
+import type { ApiResponse, UserRegister } from "../../../../types/typeService";
 
 export default function SignUp({ onLoad, onSubmit }: propsSignUp) {
   const [message, setMessage] = useState<stateMessage>({ status: "idle" });
@@ -17,20 +17,17 @@ export default function SignUp({ onLoad, onSubmit }: propsSignUp) {
     event.preventDefault();
     onLoad({ status: "load" });
     const fd: FormData = new FormData(event.currentTarget);
-    const bodyUser: userRegister = {
+    const bodyUser: UserRegister = {
       username: fd.get("username") as string,
       password: fd.get("password") as string,
-      info: {
         name: fd.get("name") as string,
         lastname: fd.get("lastname") as string,
         email: fd.get("email") as string,
-        birthday: fd.get("birthday") as string,
+        birthday: fd.get("birthday") as string, // OUTPUT -> YYYY-MM-DD es lo que necesita la base de datos.
         country: fd.get("country") as string,
-      },
     };
-
     try {
-      const res = await postSignUp<responseApi>("/api/auth/registe", bodyUser);
+      const res = await postSignUp<ApiResponse>("/api/auth/register", bodyUser);
       setMessage({ status: "success", data: res.message });
       onSubmit();
     } catch (err) {

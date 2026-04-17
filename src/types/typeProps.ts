@@ -1,5 +1,5 @@
 import type { stateLoad, stateApp } from "./typeStates";
-import type { userAuth } from "./typeService";
+import type { UserResponse } from "./typeService";
 export type propsSignUp = {
   onLoad: (st: stateLoad) => void;
   onSubmit: () => void;
@@ -7,7 +7,7 @@ export type propsSignUp = {
 
 export type propsLogin = {
   onLoad: (st: stateLoad) => void;
-  onSubmit: () => void;
+  onSubmit: (a_t:string) => void;
 };
 
 export type propsForm = {
@@ -16,10 +16,10 @@ export type propsForm = {
 };
 
 export type propsUser = {
-  data: userAuth;
+  data: UserResponse;
   onDisconnect: () => void;
 };
 
 export type propsTablaUser = {
-  userAuth: userAuth;
+  userAuth: UserResponse;
 };

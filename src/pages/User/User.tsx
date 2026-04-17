@@ -31,7 +31,6 @@ export default function User({ data, onDisconnect }: propsUser) {
   return (
     <div className="user-page">
       <div className="user-header">
-        <div className="ctm">ctm</div>
       </div>
       <div className="user-main">
         <div className="user-panel">

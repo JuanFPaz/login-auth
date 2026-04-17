@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 import { getUser } from "../../service/api";
 import type { propsForm } from "../../types/typeProps";
 import type { stateForm } from "../../types/typeStates";
-import type { userAuth } from "../../types/typeService";
+import type {  AccesResponse } from "../../types/typeService";
 import "./Form.css";
 
 export default function Form({ onLoad, onSubmit }: propsForm) {
@@ -17,11 +17,11 @@ export default function Form({ onLoad, onSubmit }: propsForm) {
   function handleRegister() {
     setForm({ status: "register" });
   }
-
-  async function handleLoginSubmit() {
+5
+  async function handleLoginSubmit(access_token:string) {
     try {
-      const res: userAuth = await getUser<userAuth>("/api/auth/me");
-      onSubmit({ status: "success", data: res });
+      const res: AccesResponse = await getUser<AccesResponse>("/api/auth/profile",access_token);
+      onSubmit({ status: "success", data: res.data });
     } catch (error) {
       console.log(error);
     }

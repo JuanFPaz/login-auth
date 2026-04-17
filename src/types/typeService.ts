@@ -1,35 +1,39 @@
-export type responseApi = {
+export type ApiResponse = {
   status: number;
   message: string;
 };
 
-export type userRegister = {
-  username: string;
-  password: string;
-  info: {
-    name: string;
-    lastname: string;
-    email: string;
-    birthday: string;
-    country: string;
-  };
+export type LoginResponse = ApiResponse & {
+  access_token: string;
 };
 
-export type userLogin = {
+export type AccesResponse = ApiResponse & {
+  data:UserResponse
+}
+
+export type UserRegister = {
+  username: string;
+  password: string;
+  name: string;
+  lastname: string;
+  email: string;
+  birthday: string;
+  country: string;
+};
+
+export type UserLogin = {
   username: string;
   password: string;
 };
 
-export type userAuth = {
+export type UserResponse = {
   id: string;
   username: string;
+  name: string;
+  lastname: string;
+  email: string;
+  birthday: string;
+  country: string;
   createdAt: string;
   lastSession: string;
-  info: {
-    name: string;
-    lastname: string;
-    email: string;
-    birthday: string;
-    country: string;
-  };
 };

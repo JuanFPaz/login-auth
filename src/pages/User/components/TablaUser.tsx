@@ -17,16 +17,16 @@ export default function TablaUser({ userAuth }: propsTablaUser) {
               <tr>
                 <td>Nombre Completo</td>
                 <td>
-                  {userAuth.info.name} {userAuth.info.lastname}
+                  {userAuth.name} {userAuth.lastname}
                 </td>
               </tr>
               <tr>
                 <td>Fecha de Cumpleaños</td>
-                <td>{userAuth.info.birthday}</td>
+                <td>{userAuth.birthday}</td>
               </tr>
               <tr>
                 <td>Correo Electronico</td>
-                <td>{userAuth.info.email}</td>
+                <td>{userAuth.email}</td>
               </tr>
               <tr>
                 <td>Cuenta creada</td>

@@ -4,7 +4,7 @@ import Form from "./pages/Form/Form";
 import Loading from "./components/Loading";
 import { getUser, postLogut } from "./service/api";
 import type { stateApp, stateLoad } from "./types/typeStates";
-import type { responseApi, userAuth } from "./types/typeService";
+import type { ApiResponse, UserResponse } from "./types/typeService";
 
 export default function App() {
   const [load, setLoad] = useState<stateLoad>({ status: "load" });
@@ -20,7 +20,7 @@ export default function App() {
         setLoad({ status: "idle" });
       } else {
         try {
-          const res: userAuth = await getUser<userAuth>("/api/auth/me");
+          const res: UserResponse = await getUser<UserResponse>("/api/auth/profile",'quehagoaca');
           setApp({ status: "success", data: res });
           setLoad({ status: "idle" });
         } catch (error) {
@@ -43,7 +43,7 @@ export default function App() {
   async function handleOnDisconnect() {
     setLoad({ status: "load" });
     try {
-      const res: responseApi = await postLogut<responseApi>("/api/auth/logout");
+      const res: ApiResponse = await postLogut<ApiResponse>("/api/auth/logout");
       localStorage.removeItem("remember");
       alert(res.message);
     } catch (error) {

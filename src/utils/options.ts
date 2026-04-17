@@ -1,4 +1,4 @@
-export function optionsPOST(body: any = null): RequestInit {
+export function optionsPOST(body?:unknown): RequestInit {
   if (!body) {
     return {
       method: "POST",
@@ -15,10 +15,13 @@ export function optionsPOST(body: any = null): RequestInit {
   };
 }
 
-export function optionsGET():RequestInit{
+export function optionsGET(access_token:string):RequestInit{
     return {
     method: "GET",
     mode: "cors",
+    headers:{
+      Authorization: `Bearer ${access_token}`
+    },
     credentials: "include",
   };
 }
