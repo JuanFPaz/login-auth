@@ -8,6 +8,7 @@ export type stateLoad = { status: "idle" } | { status: "load" };
 export type stateForm =
   | { status: "login" }
   | { status: "register" }
+  | { status: "reset" }
   | { status: "success"; data: string };
 export type stateMessage =
   | { status: "idle" }

@@ -1,18 +1,8 @@
-import { useState, useEffect } from "react";
 import Input from "../../../../components/Input";
-import { postSignUp } from "../../../../service/api";
-import type { stateMessage } from "../../../../types/typeStates";
 import type { propsSignUp } from "../../../../types/typeProps";
-import type { ApiResponse, UserRegister } from "../../../../types/typeService";
+import type { UserRegister } from "../../../../types/typeService";
 
 export default function SignUp({ onLoad, onSubmit }: propsSignUp) {
-  const [message, setMessage] = useState<stateMessage>({ status: "idle" });
-
-  useEffect(() => {
-    if (message.status === "success") alert(message.data);
-    if (message.status === "error") alert(message.error);
-  }, [message]);
-
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     onLoad({ status: "load" });
@@ -26,14 +16,7 @@ export default function SignUp({ onLoad, onSubmit }: propsSignUp) {
         birthday: fd.get("birthday") as string, // OUTPUT -> YYYY-MM-DD es lo que necesita la base de datos.
         country: fd.get("country") as string,
     };
-    try {
-      const res = await postSignUp<ApiResponse>("/api/auth/register", bodyUser);
-      setMessage({ status: "success", data: res.message });
-      onSubmit();
-    } catch (err) {
-      setMessage({ status: "error", error: (err as Error).message });
-    }
-    onLoad({ status: "idle" });
+    onSubmit(bodyUser);
   };
   return (
     <form className="form-signup" id={"form-signup"} onSubmit={handleSubmit}>

@@ -1,14 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SignUp from "./components/Signup/SignUp";
 import Login from "./components/Login/Login";
 import Button from "../../components/Button";
-import { getUser } from "../../service/api";
+import { postLogin, postReset, postSignUp } from "../../service/api";
 import type { propsForm } from "../../types/typeProps";
 import type { stateForm } from "../../types/typeStates";
-import type {  AccessResponse } from "../../types/typeService";
+import type {
+  ApiResponse,
+  LoginResponse,
+  UserLogin,
+  UserRegister,
+} from "../../types/typeService";
 import "./Form.css";
+import Reset from "./components/Reset/Reset";
 
-export default function Form({ onLoad, onSubmit }: propsForm) {
+export default function Form({ onLoad, onLogin }: propsForm) {
   const [form, setForm] = useState<stateForm>({ status: "login" });
 
   function handleLogin() {
@@ -17,21 +23,57 @@ export default function Form({ onLoad, onSubmit }: propsForm) {
   function handleRegister() {
     setForm({ status: "register" });
   }
-5
-  async function handleLoginSubmit(access_token:string) {
+
+  function handleReset(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    setForm({ status: "reset" });
+  }
+
+  async function handleLoginSubmit(body: UserLogin) {
     try {
-      const res: AccessResponse = await getUser<AccessResponse>("/api/auth/profile",access_token);
-      onSubmit({ status: "success", data: res.data, access_token});
+      const res: LoginResponse = await postLogin<LoginResponse>(
+        "/api/auth/login",
+        body,
+      );
+      onLogin(res.access_token);
     } catch (error) {
       console.log(error);
     }
     onLoad({ status: "idle" });
   }
 
-  async function handleRegisterSubmit() {
-    setForm({ status: "login" });
+  async function handleRegisterSubmit(body: UserRegister) {
+    try {
+      const res: ApiResponse = await postSignUp<ApiResponse>(
+        "/api/auth/register",
+        body,
+      );
+      alert(res.message);      
+      setForm({ status: "login" });
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+    onLoad({ status: "idle" });
   }
 
+  async function handleResetSubmit(body: {
+    username: string;
+    email: string;
+    password: string;
+  }) {
+    try {
+      const res: ApiResponse = await postReset<ApiResponse>(
+        "/api/auth/password/reset",
+        body,
+      );
+      alert(res.message);
+      setForm({ status: "login" });
+    } catch (error) {
+      alert(error);
+    }
+    onLoad({ status: "idle" });
+  }
   return (
     <>
       <div className="form-page">
@@ -56,13 +98,24 @@ export default function Form({ onLoad, onSubmit }: propsForm) {
                 <h1>Bienvenido</h1>
               </div>
               <div className="subtitle">
-                <h2>{form.status === "login" ? "Iniciar Sesion" : "Crear Nueva Cuenta"}</h2>
+                <h2>
+                  {form.status === "login"
+                    ? "Iniciar Sesion"
+                    : "Crear Nueva Cuenta"}
+                </h2>
               </div>
             </div>
           </div>
           <div className="form-container">
+            {form.status === "reset" && (
+              <Reset onLoad={onLoad} onSubmit={handleResetSubmit} />
+            )}
             {form.status === "login" && (
-              <Login onLoad={onLoad} onSubmit={handleLoginSubmit} />
+              <Login
+                onLoad={onLoad}
+                onSubmit={handleLoginSubmit}
+                onClick={handleReset}
+              />
             )}
             {form.status === "register" && (
               <SignUp onLoad={onLoad} onSubmit={handleRegisterSubmit} />
