@@ -23,7 +23,7 @@ export default function DeleteUser({onLoad, onSubmit}:{onLoad:(st:stateLoad)=>vo
           id="password"
           className="input"
           type="password"
-          textContent="Ingrese el nombre de usuario"
+          textContent="Ingrese su contraseña"
           required={true}
         />
         <button type="submit" className="submit">

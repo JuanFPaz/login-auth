@@ -1,15 +1,16 @@
 export type ApiResponse = {
-  status: number;
   message: string;
 };
 
 export type LoginResponse = ApiResponse & {
-  access_token: string;
+  data: {
+    access_token:string
+  };
 };
 
-export type AccessResponse = ApiResponse & {
+
+export type AuhtResponse = ApiResponse & {
   data:UserResponse
-  access_token: string
 }
 
 export type UserRegister = {

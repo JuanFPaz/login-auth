@@ -33,7 +33,8 @@ export default function User({
         access_token,
         body,
       );
-      onEditPass(res.access_token);
+      alert(res.message)
+      onEditPass(res.data.access_token);
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +48,8 @@ export default function User({
         access_token,
         body,
       );
+      alert(res.message)
+      onDisconnect()
     } catch (error) {
       console.error((error as Error).message);
     }

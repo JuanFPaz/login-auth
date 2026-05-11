@@ -5,8 +5,8 @@ import Loading from "./components/Loading";
 import { getUser, postLogut, postRefresh } from "./service/api";
 import type { stateApp, stateLoad } from "./types/typeStates";
 import type {
-  AccessResponse,
   ApiResponse,
+  AuhtResponse,
   LoginResponse,
 } from "./types/typeService";
 
@@ -41,14 +41,14 @@ export default function App() {
     try {
       const res: LoginResponse =
         await postRefresh<LoginResponse>("/api/auth/refresh");
-      const user: AccessResponse = await getUser<AccessResponse>(
+      const user: AuhtResponse = await getUser<AuhtResponse>(
         "/api/auth/profile",
-        res.access_token,
+        res.data.access_token,
       );
       setApp({
         status: "success",
         data: user.data,
-        access_token: res.access_token,
+        access_token: res.data.access_token,
       });
       setLoad({ status: "idle" });
     } catch (error) {
@@ -60,7 +60,7 @@ export default function App() {
 
   async function handleSubmitAuth(token: string) {
     try {
-      const res: AccessResponse = await getUser<AccessResponse>(
+      const res: AuhtResponse = await getUser<AuhtResponse>(
         "/api/auth/profile",
         token,
       );
@@ -92,8 +92,8 @@ export default function App() {
         <User
           data={app.data}
           access_token={app.access_token}
-          onEditPass={handleSubmitAuth}
           onLoad={handleLoading}
+          onEditPass={handleSubmitAuth}
           onDisconnect={handleOnDisconnect}
         />
       )}

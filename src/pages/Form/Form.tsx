@@ -35,9 +35,11 @@ export default function Form({ onLoad, onLogin }: propsForm) {
         "/api/auth/login",
         body,
       );
-      onLogin(res.access_token);
+      alert(res.message);
+      onLogin(res.data.access_token);
     } catch (error) {
       console.log(error);
+      alert(error);
     }
     onLoad({ status: "idle" });
   }
@@ -48,7 +50,7 @@ export default function Form({ onLoad, onLogin }: propsForm) {
         "/api/auth/register",
         body,
       );
-      alert(res.message);      
+      alert(res.message);
       setForm({ status: "login" });
     } catch (error) {
       console.log(error);
